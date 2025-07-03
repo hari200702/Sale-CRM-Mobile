@@ -78,7 +78,7 @@ const LeadCard = ({ lead, onUpdate  }) => {
       const token = localStorage.getItem('employee_token');
 
       await axios.post(
-        `http://localhost:4000/api/employee/leads/${lead._id}/appointment`,
+        `${BASE_URL}employee/leads/${lead._id}/appointment`,
         payload,
         {
           headers: {
@@ -112,7 +112,7 @@ const LeadCard = ({ lead, onUpdate  }) => {
   try {
     const token = localStorage.getItem('employee_token');
     await axios.put(
-      `http://localhost:4000/api/employee/leads/${lead._id}/close`,
+      `${BASE_URL}employee/leads/${lead._id}/close`,
       {},
       {
         headers: {
