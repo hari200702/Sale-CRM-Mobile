@@ -4,6 +4,7 @@ import BreakTimeList from '../components/BreakTimeList';
 import RecentActivity from '../components/RecentActivity';
 import axios from 'axios';
 import { useEmployee } from '../context/EmployeeContext';
+import { useAuth } from '../context/AuthContex';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -11,6 +12,7 @@ const Home = () => {
   const [timings, setTimings] = useState({ checkedIn: '--:-- --', checkOut: '--:-- --' });
   const [breaks, setBreaks] = useState([]);
   const [activities, setActivities] = useState([]);
+  const { logout } = useAuth();
 
   const { setEmployeeInfo } = useEmployee();
 
@@ -63,7 +65,11 @@ const Home = () => {
         }
         setActivities(activityList);
       } catch (err) {
-         alert(err.response?.data?.message || 'Login failed')
+        if(err.response?.data?.status==401){
+          alert(err.response?.data?.message || 'Login failed')
+        }
+        
+        // login()
         console.error('Error fetching home data:', err);
       }
     };
