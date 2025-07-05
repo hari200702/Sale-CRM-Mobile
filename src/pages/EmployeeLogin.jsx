@@ -42,7 +42,6 @@ const EmployeeLogin = () => {
         navigate('/');
     }
     catch(err){
-       
         console.error('Login error:', err);
         const msg = err.response?.data?.message || 'Login failed';
         setError(msg);
