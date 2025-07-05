@@ -63,6 +63,7 @@ const Home = () => {
         }
         setActivities(activityList);
       } catch (err) {
+         alert(err.response?.data?.message || 'Login failed')
         console.error('Error fetching home data:', err);
       }
     };
