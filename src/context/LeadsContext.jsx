@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from './AuthContex';
 
 const LeadsContext = createContext();
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -16,6 +17,7 @@ const formatDate = (isoDate) => {
 export const LeadsProvider = ({ children }) => {
   const [leadsData, setLeadsData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { logout }= useAuth();
 
   const fetchLeads = async () => {
     try {
@@ -29,6 +31,10 @@ export const LeadsProvider = ({ children }) => {
       }));
       setLeadsData(formatted);
     } catch (err) {
+      if(err.response?.status===401){
+          alert(err.response?.data?.message)
+          logout()
+        }
       console.error('Error fetching leads:', err);
     } finally {
       setLoading(false);

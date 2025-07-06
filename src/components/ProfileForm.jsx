@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContex';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -16,6 +17,7 @@ const ProfileForm = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const token = localStorage.getItem('employee_token');
+  const { logout }= useAuth();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -31,6 +33,10 @@ const ProfileForm = () => {
           email
         }));
       } catch (err) {
+        if(err.response?.status===401){
+          alert(err.response?.data?.message)
+          logout()
+        }
         console.error('Failed to fetch profile:', err);
         setMessage('Failed to load profile');
       }

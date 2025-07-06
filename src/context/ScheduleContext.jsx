@@ -1,15 +1,18 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from './AuthContex';
 
 const ScheduleContext = createContext();
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
 
+
 export const ScheduleProvider = ({ children }) => {
   const [scheduleData, setScheduleData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { logout }= useAuth();
 
   const fetchSchedule = async () => {
     try {
@@ -29,6 +32,10 @@ export const ScheduleProvider = ({ children }) => {
 
       setScheduleData(formatted);
     } catch (err) {
+      if(err.response?.status===401){
+          alert(err.response?.data?.message)
+          logout()
+        }
       console.error('Error fetching schedule:', err);
     } finally {
       setLoading(false);

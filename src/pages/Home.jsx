@@ -12,7 +12,7 @@ const Home = () => {
   const [timings, setTimings] = useState({ checkedIn: '--:-- --', checkOut: '--:-- --' });
   const [breaks, setBreaks] = useState([]);
   const [activities, setActivities] = useState([]);
-  const { logout }  = useAuth()
+  const { logout }=useAuth();
 
   const { setEmployeeInfo } = useEmployee();
 
@@ -65,12 +65,10 @@ const Home = () => {
         }
         setActivities(activityList);
       } catch (err) {
-        if(err.response?.data?.status==401){
-          console.log(err.response?.data?.message)
-          alert(err.response?.data?.message || 'Login failed')
-
+        if(err.response?.status===401){
+          alert(err.response?.data?.message)
+          logout()
         }
-       
       }
     };
 
